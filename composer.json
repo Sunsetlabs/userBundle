@@ -1,0 +1,23 @@
+{
+    "name": "sunsetlabs/user-bundle",
+    "type": "symfony-bundle",
+    "description": "User functionality for Symfony2 applications",
+    "keywords": ["user", "ecommerce"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alejo Rodriguez",
+            "email": "a.rodsott@gmail.com"
+        },
+        {
+            "name": "Sunsetlabs",
+            "homepage": "http://sunsetlabs.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Sunsetlabs\\UserBundle\\": "" }
+    },
+    "branch-alias" : {
+        "dev-master" : "master"
+    }
+}

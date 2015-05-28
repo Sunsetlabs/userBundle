@@ -1,0 +1,38 @@
+{% extends '@SunsetlabsUser/security/admin_login_base.html.twig' %}
+
+{% block user_security_body %}
+	<div class="container">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="well login-box">
+	                <form action="{{ path("admin_login_check") }}" method="post">
+	                    <legend>Login</legend>
+	                    <div class="form-group">
+	                    	<label for="username">Username:</label>
+                		    <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"/>
+	                    </div>
+	                    <div class="form-group">
+	                    	<label for="password">Password:</label>
+	                    	<input type="password" id="password" name="_password" class="form-control" />
+	                    </div>
+	                
+	                    <div class="form-group text-center">
+	                    	<button class="btn btn-success btn-login-submit" type="submit">login</button>
+	                    </div>
+	                    {% if error %}
+	                        <div>Invalid Credentials.</div>
+	                    {% endif %}
+
+	                    {#
+	                        If you want to control the URL the user
+	                        is redirected to on success (more details below)
+	                        <input type="hidden" name="_target_path" value="/account" />
+	                    #}
+
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+{% endblock user_security_body %}
+

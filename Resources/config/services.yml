@@ -1,0 +1,28 @@
+services:
+    admin_provider:
+        class: Sunsetlabs\UserBundle\Providers\AdminProvider
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%sl.admin.class%"
+    user_provider:
+        class: Sunsetlabs\UserBundle\Providers\UserProvider
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%sl.user.class%"
+    sunsetlabs_user.form.type.user:
+        class: Sunsetlabs\UserBundle\Form\Type\UserType
+        arguments:
+            - "%sl.user.class%"
+            - "%sl.user.form.fields%"
+            - "%sl.user.has_address%"
+        tags:
+            - { name: form.type, alias: user_type }
+    sl.user.admin.controller:
+       class: Sunsetlabs\UserBundle\Controller\UserAdminController
+       arguments:
+           - "@doctrine.orm.entity_manager"
+           - "@templating"
+           - "@form.factory"
+           - "@router"
+           - "%sl.user.class%"
+

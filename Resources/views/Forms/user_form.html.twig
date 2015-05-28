@@ -1,0 +1,60 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block content_title %}Usuario{% endblock %}
+{% block main %}
+    <hr>
+    {{ form_start(form, { 'attr' : { 'class' : 'form-horizontal' } }) }}
+        {{ form_row(form._token) }}
+        {% for name, widget in form.children  %}
+            {% if (not widget.rendered) and (name != 'addresses') %}
+                <div class="form-group {{ widget.vars.valid ? '':'has-error' }}">
+                    {{ form_label(widget, widget.vars.label, { 'label_attr' : { 'class' : 'col-lg-2 control-label' } }) }}
+                    <div class="col-lg-10">
+                        {{ form_widget(widget, { 'attr' : { 'class' : 'form-control' }  }) }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if form.addresses is defined %}
+            <div class="form-group">
+                {{ form_label(form.addresses, form.addresses.vars.label, { 'label_attr' : { 'class' : 'col-lg-2 control-label' } }) }}
+                <div class="col-lg-10">
+                    <div class="addresses" data-prototype="{% filter escape %}{% include '@SunsetlabsUser/Forms/user_address_proto.twig' with { 'form': form.addresses.vars.prototype } %}{% endfilter %}">
+                        {% for address in form.addresses %}
+                            {% include '@SunsetlabsUser/Forms/user_address_proto.twig' with { 'form' : address } %}
+                        {% endfor %}
+                    </div>
+                    <div class="btn-group">
+                        <a href="#" class="add-address btn btn-xs">Agregar Direccion</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+        <hr>
+
+        <div class="col-lg-10 col-lg-offset-2">
+            <div id="form-actions-row">
+                <button type="submit" class="btn">
+                    <i class="fa fa-save"></i> Gudardar
+                </button>
+                <a class="btn btn-secondary" href="{{ path('admin', { 'action' : 'list', 'view' : 'list', 'entity' : 'User' } ) }}">Listar Customers</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/sunsetlabsuser/js/admin.js') }}"></script>
+    <script src="{{ asset('bundles/easyadmin/javascript/jquery.are-you-sure.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#new-form').areYouSure({ 'message': 'You haven\'t saved the changes made on this form.' });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% for name, widget in form.children  %}
+    {% if (not widget.rendered) %}
+        <div class="form-group">
+            {{ form_label(widget, widget.vars.label, { 'label_attr' : { 'class' : 'col-lg-2 control-label' } }) }}
+            <div class="col-lg-10">
+                {{ form_widget(widget, { 'attr' : { 'class' : 'form-control' }  }) }}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+<hr>

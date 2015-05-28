@@ -1,0 +1,7 @@
+edit_user:
+    path:     '/admin/user/edit/{id}'
+    defaults: { _controller: sl.user.admin.controller:editAction }
+logout:
+    path: /logout
+admin_logout:
+    path: /admin/logout
