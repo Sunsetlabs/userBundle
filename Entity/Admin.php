@@ -2,14 +2,20 @@
 
 namespace Sunsetlabs\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
+/**
+ * @ORM\MappedSuperclass
+ */
 abstract class Admin implements UserInterface,EquatableInterface
 {
 	protected $id;
 	protected $username;
 	protected $password;
+	protected $salt = null;
+	protected $plainPassword;
 
 	public function __construct($username = '', $password = '')
 	{
@@ -35,9 +41,23 @@ abstract class Admin implements UserInterface,EquatableInterface
 	   return $this->password;
 	}
 
+	public function getPlainPassword()
+	{
+		return $this->plainPassword;
+	}
+	public function setPlainPassword($plainPassword)
+	{
+		$this->password = '';
+		$this->refreshSalt();
+		$this->plainPassword = $plainPassword;
+		return $this;
+	}
+
 	public function getSalt()
 	{
-	   return '';
+	    return $this->salt
+	    	? $this->salt
+	    	: $this->refreshSalt();
 	}
 
 	public function setUsername($username)
@@ -56,7 +76,7 @@ abstract class Admin implements UserInterface,EquatableInterface
 
 	public function isEqualTo(UserInterface $user)
 	{
-	   if (!$user instanceof Client) {
+	   if (!$user instanceof Admin) {
 	       return false;
 	   }
 
@@ -69,5 +89,10 @@ abstract class Admin implements UserInterface,EquatableInterface
 	   }
 
 	   return true;
+	}
+
+	protected function refreshSalt()
+	{
+		$this->salt = uniqid(mt_rand(), true);
 	}
 }

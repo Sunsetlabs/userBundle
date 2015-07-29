@@ -25,4 +25,11 @@ services:
            - "@form.factory"
            - "@router"
            - "%sl.user.class%"
+    sl.user.admin.manager:
+        class: Sunsetlabs\UserBundle\EventListeners\AdminListener
+        arguments:
+            - @security.encoder_factory
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
