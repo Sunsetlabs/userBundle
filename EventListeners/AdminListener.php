@@ -22,7 +22,10 @@ class AdminListener
 		if (!empty($plainPassword)) {
 			$encoder = $this->encoderFactory->getEncoder($user);
 			$user->setPassword($encoder->encodePassword($plainPassword, $user->getSalt()));
+			return true;
 		}
+
+		return false;
 	}
 
 	public function preUpdate(LifecycleEventArgs $event)
@@ -30,8 +33,9 @@ class AdminListener
 		$user = $event->getEntity();
 
 		if ($user instanceof $this->admin_class or is_subclass_of($user, $this->admin_class)) {
-			$this->updateUser($user);
-			$event->setNewValue('password', $user->getPassword());
+			if ($this->updateUser($user)) {
+				$event->setNewValue('password', $user->getPassword());
+			}
 		}
 
 	}
